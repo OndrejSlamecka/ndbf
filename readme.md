@@ -25,13 +25,13 @@ Put this method into your BasePresenter:
 
 And you can use it in your presenters:
 
-    // ... renderDefault()
+    // In renderDefault() or similar:
     $products = $this->repositories->Product;
     
     // Returns all 'Red' products ordered by 'price', instance of Nette\Database\Table\Selection
     $products->find(array('color'=>'Red'),'price');
     
-    // Fetches product with id 15 (this is already implemented in Nette\Database - NDBF fluently extends its functionality) 
+    // Fetches product with id 15 (this is method of Nette\Database - NDBF fluently extends its functionality) 
     $products->find(array('id'=>15),'price')->fetch(); 
     
     // Returns Nette\Database\Table\Selection - NDBF fills table name for you

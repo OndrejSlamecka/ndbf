@@ -3,7 +3,7 @@
  * NDBF tests
  * Ondrej Slamecka, www.slamecka.cz
  * 
- * With run tests following settings, you need to have Nette in the same folder as NDBF
+ * To run tests with following settings, you need to have Nette in the same folder as NDBF
  * Edit variables $dsn, $user, $password according to your needs  
  *
  */
