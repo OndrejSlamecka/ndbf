@@ -14,25 +14,32 @@ class RepositoryManager
 {
 
     /** @var Nette\DI\Container */
-    private $repositoryContainer;
+    private $container;
+
+    /** @var array */
     private $instantiated_repositories;
 
     /************************** CONSTRUCTOR, DESIGN ***************************/
 
     public function __construct(\Nette\DI\Container $container)
     {
-        $this->repositoryContainer = $container;
+        $this->container = $container;
     }
 
+    /**
+     * Returns instance of Application\Repository\<$repository> if exists else instance of NDBF\Repository
+     * @param string Repository name
+     * @return NDBF\Repository
+     */
     public function getRepository($repository)
     {
         if (empty($this->instantiated_repositories) || !in_array($repository, array_keys($this->instantiated_repositories))) {
             $repo_class = 'Application\\Repository\\' . $repository;
 
             if (class_exists($repo_class)) {
-                $repo = new $repo_class($this->repositoryContainer, $repository);
+                $repo = new $repo_class($this->container, $repository);
             } else {
-                $repo = new Repository($this->repositoryContainer, $repository);
+                $repo = new Repository($this->container, $repository);
             }
             $this->instantiated_repositories[$repository] = $repo;
         }

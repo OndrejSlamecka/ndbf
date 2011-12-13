@@ -25,8 +25,8 @@ $robotLoader->addDirectory(LIBS_DIR);
 $robotLoader->register();
 
 // Configurate and setup database
-$dsn = 'mysql:host=localhost;dbname=cms';
-$user = 'root';
-$password = 'root';
+const DB_DSN = 'mysql:host=localhost;dbname=cms';
+const DB_USER = 'root';
+const DB_PASSWORD = 'root';
 
-$configurator->container->addService('database', new \Nette\Database\Connection($dsn, $user, $password));
+$configurator->container->addService('database', new \Nette\Database\Connection(DB_DSN, DB_USER, DB_PASSWORD));

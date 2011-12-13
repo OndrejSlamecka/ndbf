@@ -13,10 +13,10 @@ namespace NDBF;
 class Factory extends \Nette\Object
 {
 
-    public static function createService(\Nette\DI\Container $container, $dsn, $user, $password)
+    public static function createService($dsn, $user, $password, \Nette\Caching\IStorage $storage = null)
     {
         $db = new \Nette\Database\Connection($dsn, $user, $password);
-        $db->setCacheStorage($container->cacheStorage);
+        $db->setCacheStorage( $storage );
         return $db;
     }
 
