@@ -31,21 +31,26 @@ class RepositoryManager
      * @param string Repository name
      * @return NDBF\Repository
      */
-    public function getRepository($repository)
+    public function getRepository($name)
     {
-        if (empty($this->instantiated_repositories) || !in_array($repository, array_keys($this->instantiated_repositories))) {
-            $repo_class = 'Application\\Repository\\' . $repository;
+        if (empty($this->instantiated_repositories) || !in_array($name, array_keys($this->instantiated_repositories))) {
+            $class = 'Application\\Repository\\' . $name;
 
-            if (class_exists($repo_class)) {
-                $repo = new $repo_class($this->container, $repository);
+            if (class_exists($class)) {
+                $instance = new $class($this->container, $name);
             } else {
-                $repo = new Repository($this->container, $repository);
+                $instance = new Repository($this->container, $name);
             }
-            $this->instantiated_repositories[$repository] = $repo;
+            $this->instantiated_repositories[$name] = $instance;
         }
-        return $this->instantiated_repositories[$repository];
+        return $this->instantiated_repositories[$name];
     }
 
+    /**
+     * Getter and shortuct for getRepository()
+     * @param string Repository name
+     * @return NDBF\Repository
+     */
     public function __get($name)
     {
         return $this->getRepository($name);

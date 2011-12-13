@@ -15,7 +15,7 @@ namespace NDBF;
  */
 class Repository extends \Nette\Object
 {
-    /******************************* VARIABLES ********************************/
+    /****************************** VARIABLES *********************************/
 
     /** @var \Nette\DI\Container */
     protected $container;
@@ -34,7 +34,7 @@ class Repository extends \Nette\Object
         $this->container = $container;
         $this->connection = $container->database;
 
-        /** DATABASE TABLE NAME * */
+        // DATABASE TABLE NAME
         if ($table_name === null) {
             $table_name = get_class($this);
             $table_name = substr($table_name, strrpos($table_name, '\\') + 1);
@@ -45,13 +45,13 @@ class Repository extends \Nette\Object
     /**
      * Allows $this->repositories->Repository    
      * @return \NDBF\RepositoryManager           
-     */ 
+     */
     /*
-    final public function getRepositories()
-    {
-        return $this->container->repositoryManager;
-    }
-    */
+      final public function getRepositories()
+      {
+      return $this->container->repositoryManager;
+      }
+     */
 
     /**
      * @return \Nette\Database\Connection
@@ -103,7 +103,13 @@ class Repository extends \Nette\Object
         return $query;
     }
 
-    public function fetchPairs($key, $val)
+    /**
+     * Returns all rows as associative array.
+     * @param  string
+     * @param  string column name used for an array value or an empty string for the whole row
+     * @return array
+     */
+    public function fetchPairs($key, $val = '')
     {
         return $this->db->table($this->table_name)->fetchPairs($key, $val);
     }
