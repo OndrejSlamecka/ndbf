@@ -19,7 +19,7 @@ class RepositoryManager
     /** @var array */
     private $instantiated_repositories;
 
-    /************************** CONSTRUCTOR, DESIGN ***************************/
+    /* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
     public function __construct(\Nette\DI\Container $container)
     {
