@@ -29,10 +29,10 @@ class Repository extends \Nette\Object
 
     /* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-    public function __construct(\Nette\DI\Container $container, $table_name = null)
+    public function __construct(\Nette\DI\Container $container, \Nette\Database\Connection $connection, $table_name = null)
     {
         $this->container = $container;
-        $this->connection = $container->database;
+        $this->connection = $connection;
 
         // DATABASE TABLE NAME
         if ($table_name === null) {
