@@ -5,14 +5,11 @@ NDBF is a layer above Nette\Database. Please introduce yourself to Nette\Databas
 
 Use
 ---
-In bootstrap.php you create the service:
+In config.neon you create the service like below. Service with Nette\Database\Connection is required, but how you create it is up to you.
 
-    // Create database connection with settings
-    list($dsn, $user, $password) = $container->params['database'];
-    $container->addService('database', \NDBF\Factory::createService($this->container, $dsn, $user, $password));
-    
-    // Register repositoryManager
-    $this->container->addService('repositoryManager', new \NDBF\RepositoryManager($container));
+    services:        
+        database: Nette\Database\Connection('mysql:host=localhost;dbname=testdb','root','toor')
+        repositoryManager: NDBF\RepositoryManager(...)
 
 
 Put this method into your BasePresenter:
