@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is a part of the NDBF library
  *
@@ -7,7 +8,6 @@
  * License can be found within the file license.txt in the root folder.
  * 
  */
-
 // TODO: Add dependencies
 class RepositoryTest extends PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->database = $container->database;
 
         // Instance and reflection
-        $this->instance = new \NDBF\Repository($container, 'testtable');
+        $this->instance = new \NDBF\Repository($container, $container->database, 'testtable');
         $this->reflection = new \Nette\Reflection\ClassType($this->instance);
 
         // Truncate

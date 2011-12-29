@@ -13,7 +13,8 @@ class RepositoryManagerTest extends PHPUnit_Framework_TestCase
 
     public function testGetRepository()
     {
-        $rm = new \NDBF\RepositoryManager(\Nette\Environment::getContext());
+        $container = \Nette\Environment::getContext();
+        $rm = new \NDBF\RepositoryManager($container, $container->getService('database'));
         self::assertInstanceOf('NDBF\Repository', $rm->getRepository('FooBarRepository'));
     }
 
