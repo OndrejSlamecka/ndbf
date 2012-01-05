@@ -1,7 +1,7 @@
 NDBF - Layer for Nette\Database
 ===============================
 
-NDBF is a layer above Nette\Database. Please introduce yourself to Nette\Database syntax first, because it is essential to understand NDBF.
+NDBF is a thin layer above Nette\Database. Please introduce yourself to Nette\Database syntax first, because it is essential to understand NDBF.
 
 Use
 ---
@@ -16,7 +16,7 @@ Put this method into your BasePresenter:
 
     final public function getRepositories()
     {
-        return $this->context->repositoryManager;
+        return $this->getService('repositoryManager');
     }
 
 
@@ -34,11 +34,21 @@ And you can use it in your presenters:
     // Returns Nette\Database\Table\Selection - NDBF fills table name for you
     $products->table();
 
+    // Saves new $product
+    $product = array('name' => 'FooBar');
+    $products->save($product, 'id'); // $product recieves newly assigned id after save
+
+    // Updates product
+    $product->save($product, 'id'); // $product has id assigned from the previous save
+
+    // Removes product with id 15
+    $products->remove(array('id' => 15));
+
 
 If default functions (see NDBF\Repository) aren't enough for you, just extend them by writing your own repository.
 Do you want to extend Product repository?
 
-    namespace Application\Repository; // This is neccessary
+    namespace Application\Repository; // This namespace is necessary
     
     class Product extends \NDBF\Repository
     {
@@ -50,6 +60,8 @@ Do you want to extend Product repository?
 
 Disclaimer
 ----------
+Released under the New BSD license.
+
 This is not a part of Nette Framework!! Use at your own risk.
 
 
