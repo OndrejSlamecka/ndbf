@@ -59,6 +59,16 @@ class Repository extends \Nette\Object
         return $this->connection;
     }
 
+    /* -------------- Nette\Database\Connection copy/extension -------------- */
+
+    /**
+     * @return \Nette\Database\Table\Selection
+     */
+    final public function select($columns)
+    {
+        return $this->db->table($this->table_name)->select($columns);
+    }
+
     /**
      * @return \Nette\Database\Table\Selection
      */
