@@ -91,8 +91,8 @@ class Repository extends \Nette\Object
     }
 
     /**
-     * Removes entity from db. (ID required)
-     * @param Entity $entity
+     * Deletes entity from db.
+     * @param array $conditions
      * @throws LogicException, InvalidArgumentException
      */
     public function remove($conditions)
