@@ -59,7 +59,15 @@ class Repository extends \Nette\Object
         return $this->connection;
     }
 
-    /* -------------- Nette\Database\Connection copy/extension -------------- */
+    /* -------------------- Nette\Database extension ------------------- */
+
+    /**
+     * @return \Nette\Database\Table\Selection
+     */
+    final public function table()
+    {
+        return $this->db->table($this->table_name);
+    }
 
     /**
      * @return \Nette\Database\Table\Selection
@@ -70,57 +78,14 @@ class Repository extends \Nette\Object
     }
 
     /**
-     * @return \Nette\Database\Table\Selection
-     */
-    final public function table()
-    {
-        return $this->db->table($this->table_name);
-    }
-
-    /* --------------------------- DATA METHODS ----------------------------- */
-
-    /*
-     *
-     * @param array $conditions (column=>value)
-     * @param string $order
-     * @param int $limit
-     * @param int $offset
-     * @return array, null
-     */
-    /** @deprecated */
-    public function find($conditions = null, $order = null, $limit = null, $offset = null)
-    {
-        // Start basic command
-        $query = $this->db->table($this->table_name);
-
-        // Apply conditions
-        if (count($conditions) > 0)
-            foreach ($conditions as $column => $value)
-                $query->where($column, $value);
-
-        // Apply order
-        if (isset($order))
-            $query = $query->order($order);
-
-        if (isset($limit)) {
-            if ($offset !== null)
-                $query = $query->limit($limit, $offset);
-            else
-                $query = $query->limit($limit);
-        }
-
-        return $query;
-    }
-
-    /**
-     * Returns all rows as associative array.
+     * Returns all rows as an associative array.
      * @param  string
      * @param  string column name used for an array value or an empty string for the whole row
      * @return array
      */
     public function fetchPairs($key, $val = '')
     {
-        return $this->db->table($this->table_name)->fetchPairs($key, $val);
+        return $this->table($this->table_name)->fetchPairs($key, $val);
     }
 
     /**
@@ -178,6 +143,42 @@ class Repository extends \Nette\Object
         }else
             $this->db
                     ->exec('UPDATE `' . $this->table_name . '` SET ? WHERE `' . $table_id . '` = ?', $record, $record[$table_id]);
+    }
+
+    /* --- DEPRECATED --- */
+
+    /*
+     *
+     * @param array $conditions (column=>value)
+     * @param string $order
+     * @param int $limit
+     * @param int $offset
+     * @return array, null
+     */
+
+    /** @deprecated */
+    public function find($conditions = null, $order = null, $limit = null, $offset = null)
+    {
+        // Start basic command
+        $query = $this->db->table($this->table_name);
+
+        // Apply conditions
+        if (count($conditions) > 0)
+            foreach ($conditions as $column => $value)
+                $query->where($column, $value);
+
+        // Apply order
+        if (isset($order))
+            $query = $query->order($order);
+
+        if (isset($limit)) {
+            if ($offset !== null)
+                $query = $query->limit($limit, $offset);
+            else
+                $query = $query->limit($limit);
+        }
+
+        return $query;
     }
 
 }
