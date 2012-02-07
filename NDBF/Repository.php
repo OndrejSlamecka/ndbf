@@ -85,15 +85,9 @@ class Repository extends \Nette\Object
      * @param array,null $conditions
      * @return int
      */
-    public function count($conditions = null)
+    public function count()
     {
-        $query = $this->table();
-
-        if (count($conditions) > 0)
-            foreach ($conditions as $column => $value)
-                $query->where($column, $value);
-
-        return $query->count('*');
+        return $this->table()->count();
     }
 
     /**
