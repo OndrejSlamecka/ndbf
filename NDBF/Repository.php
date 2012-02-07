@@ -79,7 +79,7 @@ class Repository extends \Nette\Object
 
     /* --------------------------- DATA METHODS ----------------------------- */
 
-    /**
+    /*
      *
      * @param array $conditions (column=>value)
      * @param string $order
@@ -87,6 +87,7 @@ class Repository extends \Nette\Object
      * @param int $offset
      * @return array, null
      */
+    /** @deprecated */
     public function find($conditions = null, $order = null, $limit = null, $offset = null)
     {
         // Start basic command
