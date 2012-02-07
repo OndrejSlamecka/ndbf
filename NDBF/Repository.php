@@ -161,7 +161,7 @@ class Repository extends \Nette\Object
         } else {
             // There is an ID
             // Following condition allows restoring deleted items
-            if ($this->find(array($table_id => $record[$table_id]))->fetch()) // Is this entity already stored?
+            if ($this->select($table_id)->where($table_id, $record[$table_id])->fetch()) // Is this entity already stored?
                 $insert = false; // Yes it is, so we'll update it
             else
                 $insert = true; // No it isn't so insert
