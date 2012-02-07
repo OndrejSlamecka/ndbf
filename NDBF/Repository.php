@@ -10,9 +10,6 @@
 
 namespace NDBF;
 
-/**
- * Repository with basic functionality such as find() function.
- */
 class Repository extends \Nette\Object
 {
     /* ---------------------------- VARIABLES ------------------------------- */
@@ -51,7 +48,7 @@ class Repository extends \Nette\Object
         return $this->parent;
     }
 
-    /* -------------------- Nette\Database extension ------------------- */
+    /* ---------------------- Nette\Database EXTENSION ---------------------- */
 
     /**
      * @return \Nette\Database\Table\Selection
@@ -95,7 +92,7 @@ class Repository extends \Nette\Object
      * @param array $conditions
      * @throws LogicException, InvalidArgumentException
      */
-    public function remove($conditions)
+    public function delete($conditions)
     {
         $this->connection->exec('DELETE FROM `' . $this->table_name . '` WHERE ', $conditions);
     }
