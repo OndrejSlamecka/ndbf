@@ -1,13 +1,14 @@
 NDBF - Layer for Nette\Database
 ===============================
 
-NDBF is a thin layer above Nette\Database. Please introduce yourself to Nette\Database syntax first, because it is essential to understand NDBF.
+NDBF is a thin layer above Nette\Database which offers interface based on repository manager/repositories model.
+Please introduce yourself to Nette\Database syntax first, because it is essential to understand NDBF.
 
 Use
 ---
 In config.neon you create the service like below. Service with Nette\Database\Connection is required, but how you create it is up to you.
 
-    services:        
+    services:
         database: Nette\Database\Connection('mysql:host=localhost;dbname=testdb','root','toor')
         repositoryManager: NDBF\RepositoryManager(...)
 
@@ -24,15 +25,9 @@ And you can use it in your presenters:
 
     // In renderDefault() or similar:
     $products = $this->repositories->Product;
-    
-    // Returns all 'Red' products ordered by 'price', instance of Nette\Database\Table\Selection
-    $products->find(array('color'=>'Red'),'price');
-    
-    // Fetches product with id 15 (this is method of Nette\Database - NDBF fluently extends its functionality) 
-    $products->find(array('id'=>15),'price')->fetch(); 
-    
-    // Returns Nette\Database\Table\Selection - NDBF fills table name for you
-    $products->table();
+
+    // Use simplified methods select(), table(), fetchPairs(), count()
+    $products->select()->where('color'=>'Red')->order('price');
 
     // Saves new $product
     $product = array('name' => 'FooBar');
@@ -49,14 +44,16 @@ If default functions (see NDBF\Repository) aren't enough for you, just extend th
 Do you want to extend Product repository?
 
     namespace Application\Repository; // This namespace is necessary
-    
+
     class Product extends \NDBF\Repository
     {
         function findOnlyFifteenCoolProducts()
         {
-            return $this->find(array('is_cool'=>true),null,15);
+            return $this->select('is_cool',true)->limit(15);
         }
-    } 
+    }
+
+If you need more dependencies than given by RepositoryManager I suggest you to extend that class.
 
 Disclaimer
 ----------
