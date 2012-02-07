@@ -51,14 +51,6 @@ class Repository extends \Nette\Object
         return $this->parent;
     }
 
-    /**
-     * @return \Nette\Database\Connection
-     */
-    final public function getDb()
-    {
-        return $this->connection;
-    }
-
     /* -------------------- Nette\Database extension ------------------- */
 
     /**
@@ -66,7 +58,7 @@ class Repository extends \Nette\Object
      */
     final public function table()
     {
-        return $this->db->table($this->table_name);
+        return $this->connection->table($this->table_name);
     }
 
     /**
@@ -74,7 +66,7 @@ class Repository extends \Nette\Object
      */
     final public function select($columns)
     {
-        return $this->db->table($this->table_name)->select($columns);
+        return $this->connection->table($this->table_name)->select($columns);
     }
 
     /**
@@ -111,7 +103,7 @@ class Repository extends \Nette\Object
      */
     public function remove($conditions)
     {
-        $this->db->exec('DELETE FROM `' . $this->table_name . '` WHERE ', $conditions);
+        $this->connection->exec('DELETE FROM `' . $this->table_name . '` WHERE ', $conditions);
     }
 
     /**
@@ -135,13 +127,13 @@ class Repository extends \Nette\Object
 
 
         if ($insert) {
-            $this->db
+            $this->connection
                     ->exec('INSERT INTO `' . $this->table_name . '`', $record);
 
             // Set last inserted item id
-            $record[$table_id] = $this->db->lastInsertId();
+            $record[$table_id] = $this->connection->lastInsertId();
         }else
-            $this->db
+            $this->connection
                     ->exec('UPDATE `' . $this->table_name . '` SET ? WHERE `' . $table_id . '` = ?', $record, $record[$table_id]);
     }
 
@@ -160,7 +152,7 @@ class Repository extends \Nette\Object
     public function find($conditions = null, $order = null, $limit = null, $offset = null)
     {
         // Start basic command
-        $query = $this->db->table($this->table_name);
+        $query = $this->connection->table($this->table_name);
 
         // Apply conditions
         if (count($conditions) > 0)
@@ -179,6 +171,16 @@ class Repository extends \Nette\Object
         }
 
         return $query;
+    }
+
+    /*
+     * @return \Nette\Database\Connection
+     */
+
+    /** @deprecated */
+    final public function getDb()
+    {
+        return $this->connection;
     }
 
 }
