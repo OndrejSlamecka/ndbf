@@ -3,9 +3,9 @@
  * This file is a part of the NDBF library
  *
  * @copyright (c) 2011 Ondrej Slamecka (http://www.slamecka.cz)
- * 
+ *
  * License can be found within the file license.txt in the root folder.
- * 
+ *
  */
 
 namespace NDBF;
@@ -17,8 +17,8 @@ class Repository extends \Nette\Object
 {
     /* ---------------------------- VARIABLES ------------------------------- */
 
-    /** @var \Nette\DI\Container */
-    protected $container;
+    /** @var \NDBF\RepositoryManager */
+    protected $parent;
 
     /** @var \Nette\Database\Connection */
     protected $connection;
@@ -29,9 +29,9 @@ class Repository extends \Nette\Object
 
     /* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-    public function __construct(\Nette\DI\Container $container, \Nette\Database\Connection $connection, $table_name = null)
+    public function __construct(RepositoryManager $parent, \Nette\Database\Connection $connection, $table_name = null)
     {
-        $this->container = $container;
+        $this->parent = $parent;
         $this->connection = $connection;
 
         // DATABASE TABLE NAME
@@ -43,15 +43,13 @@ class Repository extends \Nette\Object
     }
 
     /**
-     * Allows $this->repositories->Repository    
-     * @return \NDBF\RepositoryManager           
+     * Allows access to other repositories
+     * @return \NDBF\RepositoryManager
      */
-    /*
-      final public function getRepositories()
-      {
-      return $this->container->repositoryManager;
-      }
-     */
+    final protected function getParent()
+    {
+        return $this->parent;
+    }
 
     /**
      * @return \Nette\Database\Connection
@@ -72,10 +70,10 @@ class Repository extends \Nette\Object
     /* --------------------------- DATA METHODS ----------------------------- */
 
     /**
-     * 
+     *
      * @param array $conditions (column=>value)
      * @param string $order
-     * @param int $limit      
+     * @param int $limit
      * @param int $offset
      * @return array, null
      */
@@ -143,7 +141,7 @@ class Repository extends \Nette\Object
     /**
      * Saves record
      * @param type $record
-     * @param type $table_id 
+     * @param type $table_id
      */
     public function save(&$record, $table_id)
     {

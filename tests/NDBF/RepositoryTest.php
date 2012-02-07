@@ -1,13 +1,13 @@
 <?php
-
 /**
  * This file is a part of the NDBF library
  *
  * @copyright (c) 2011 Ondrej Slamecka (http://www.slamecka.cz)
- * 
+ *
  * License can be found within the file license.txt in the root folder.
- * 
+ *
  */
+
 // TODO: Add dependencies
 class RepositoryTest extends PHPUnit_Framework_TestCase
 {
@@ -29,10 +29,12 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $container = \Nette\Environment::getContext();
+
+        /** @var Nette\DI\Container */
         $this->database = $container->database;
 
         // Instance and reflection
-        $this->instance = new \NDBF\Repository($container, $container->database, 'testtable');
+        $this->instance = new \NDBF\Repository(new NDBF\RepositoryManager($container, $container->database), $container->database, 'testtable');
         $this->reflection = new \Nette\Reflection\ClassType($this->instance);
 
         // Truncate

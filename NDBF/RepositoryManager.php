@@ -3,9 +3,9 @@
  * This file is a part of the NDBF library
  *
  * @copyright (c) 2011 Ondrej Slamecka (http://www.slamecka.cz)
- * 
+ *
  * License can be found within the file license.txt in the root folder.
- * 
+ *
  */
 
 namespace NDBF;
@@ -41,9 +41,9 @@ class RepositoryManager
             $class = 'Application\\Repository\\' . $name;
 
             if (class_exists($class)) {
-                $instance = new $class($this->container, $this->connection, $name);
+                $instance = new $class($this, $this->connection, $name);
             } else {
-                $instance = new Repository($this->container, $this->connection, $name);
+                $instance = new Repository($this, $this->connection, $name);
             }
             $this->instantiated_repositories[$name] = $instance;
         }
