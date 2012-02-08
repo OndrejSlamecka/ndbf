@@ -42,6 +42,7 @@ class RepositoryManager
                 $instance = new Repository($this, $this->connection, $name);
             }
             $this->instantiated_repositories[$name] = $instance;
+            $this->onRepositoryCreated($instance);
         }
         return $this->instantiated_repositories[$name];
     }
@@ -54,6 +55,15 @@ class RepositoryManager
     public function __get($name)
     {
         return $this->getRepository($name);
+    }
+
+    /**
+     * Called after repository was created
+     * @param Repository $instance
+     */
+    protected function onRepositoryCreated(Repository $instance)
+    {
+
     }
 
 }
