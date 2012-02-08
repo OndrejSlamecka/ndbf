@@ -74,7 +74,7 @@ class Repository extends \Nette\Object
      */
     public function fetchPairs($key, $val = '')
     {
-        return $this->table($this->table_name)->fetchPairs($key, $val);
+        return $this->table()->fetchPairs($key, $val);
     }
 
     /**
