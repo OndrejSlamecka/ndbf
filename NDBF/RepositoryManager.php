@@ -13,9 +13,6 @@ namespace NDBF;
 class RepositoryManager
 {
 
-    /** @var Nette\DI\Container */
-    private $container;
-
     /** @var Nette\Database\Connection */
     private $connection;
 
@@ -24,9 +21,8 @@ class RepositoryManager
 
     /* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-    public function __construct(\Nette\DI\Container $container, \Nette\Database\Connection $connection)
+    public function __construct(\Nette\Database\Connection $connection)
     {
-        $this->container = $container;
         $this->connection = $connection;
     }
 

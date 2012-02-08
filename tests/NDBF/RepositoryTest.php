@@ -34,7 +34,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->database = $container->database;
 
         // Instance and reflection
-        $this->instance = new \NDBF\Repository(new NDBF\RepositoryManager($container, $container->database), $container->database, 'testtable');
+        $this->instance = new \NDBF\Repository(new NDBF\RepositoryManager($container->database), $container->database, 'testtable');
         $this->reflection = new \Nette\Reflection\ClassType($this->instance);
 
         // Truncate

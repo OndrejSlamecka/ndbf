@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is a part of the NDBF library
  *
@@ -8,13 +7,14 @@
  * License can be found within the file license.txt in the root folder.
  *
  */
+
 class RepositoryManagerTest extends PHPUnit_Framework_TestCase
 {
 
     public function testGetRepository()
     {
         $container = \Nette\Environment::getContext();
-        $rm = new \NDBF\RepositoryManager($container, $container->getService('database'));
+        $rm = new \NDBF\RepositoryManager($container->getService('database'));
         self::assertInstanceOf('NDBF\Repository', $rm->getRepository('FooBarRepository'));
     }
 
