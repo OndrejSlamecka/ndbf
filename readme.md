@@ -53,7 +53,10 @@ Do you want to extend Product repository?
         }
     }
 
-If you need more dependencies than given by RepositoryManager I suggest you to extend that class.
+If you need more dependencies than given by RepositoryManager I suggest you to extend
+RepositoryManager like [this](https://github.com/OndrejSlamecka/CoolMS/blob/dev/app/commons/models/RepositoryManager.php) (+[config](https://github.com/OndrejSlamecka/CoolMS/blob/dev/app/config/config.neon#L31))
+and Repository like [this](https://github.com/OndrejSlamecka/CoolMS/blob/dev/app/BackendCore/MenuModule/models/Repositories/Menuitem.php#L18).
+
 
 Disclaimer
 ----------
