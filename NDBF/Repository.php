@@ -61,7 +61,7 @@ class Repository extends \Nette\Object
     /**
      * @return \Nette\Database\Table\Selection
      */
-    final public function select($columns)
+    final public function select($columns = '*')
     {
         return $this->connection->table($this->table_name)->select($columns);
     }
