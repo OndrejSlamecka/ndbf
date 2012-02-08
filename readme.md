@@ -27,7 +27,7 @@ And you can use it in your presenters:
     $products = $this->repositories->Product;
 
     // Use simplified methods select(), table(), fetchPairs(), count()
-    $products->select()->where('color'=>'Red')->order('price');
+    $products->select()->where('color', 'red')->order('price');
 
     // Saves new $product
     $product = array('name' => 'FooBar');
@@ -49,7 +49,7 @@ Do you want to extend Product repository?
     {
         function findOnlyFifteenCoolProducts()
         {
-            return $this->select('is_cool',true)->limit(15);
+            return $this->select('is_cool', true)->limit(15);
         }
     }
 
