@@ -1,1 +1,1 @@
-NDBF 0.2-dev
+NDBF 0.2 stable
