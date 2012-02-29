@@ -10,6 +10,9 @@
 
 namespace NDBF;
 
+/**
+ * Basic repository class
+ */
 class Repository extends \Nette\Object
 {
     /* ---------------------------- VARIABLES ------------------------------- */

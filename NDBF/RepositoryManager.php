@@ -10,6 +10,9 @@
 
 namespace NDBF;
 
+/**
+ * Class responsible for managing repositories
+ */
 class RepositoryManager
 {
 
@@ -27,7 +30,7 @@ class RepositoryManager
     }
 
     /**
-     * Returns instance of Application\Repository\<$repository> if exists else instance of NDBF\Repository
+     * Returns instance of Application\Repository\<$repository> if exists, instance of NDBF\Repository otherwise
      * @param string Repository name
      * @return NDBF\Repository
      */
@@ -48,7 +51,7 @@ class RepositoryManager
     }
 
     /**
-     * Getter and shortuct for getRepository()
+     * Shortuct for getRepository()
      * @param string Repository name
      * @return NDBF\Repository
      */
@@ -58,7 +61,7 @@ class RepositoryManager
     }
 
     /**
-     * Called after repository was created
+     * Callback called after repository was created
      * @param Repository $instance
      */
     protected function onRepositoryCreated(Repository $instance)
