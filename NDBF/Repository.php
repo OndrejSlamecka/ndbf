@@ -124,46 +124,6 @@ class Repository extends \Nette\Object
 
     /* --- DEPRECATED --- */
 
-    /*
-     *
-     * @param array $conditions (column=>value)
-     * @param string $order
-     * @param int $limit
-     * @param int $offset
-     * @return array, null
-     */
-
-    /** @deprecated */
-    public function find($conditions = null, $order = null, $limit = null, $offset = null)
-    {
-        // Start basic command
-        $query = $this->connection->table($this->table_name);
-
-        // Apply conditions
-        if (count($conditions) > 0)
-            foreach ($conditions as $column => $value)
-                $query->where($column, $value);
-
-        // Apply order
-        if (isset($order))
-            $query = $query->order($order);
-
-        if (isset($limit)) {
-            if ($offset !== null)
-                $query = $query->limit($limit, $offset);
-            else
-                $query = $query->limit($limit);
-        }
-
-        return $query;
-    }
-
-    /** @deprecated */
-    final public function getDb()
-    {
-        return $this->connection;
-    }
-
     /** @deprecated */
     final protected function getParent()
     {
