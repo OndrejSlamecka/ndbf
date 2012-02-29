@@ -42,15 +42,6 @@ class Repository extends \Nette\Object
         $this->table_name = strtolower($table_name); // Lowercase convention!
     }
 
-    /**
-     * Allows access to other repositories
-     * @return \NDBF\RepositoryManager
-     */
-    final protected function getParent()
-    {
-        return $this->parent;
-    }
-
     /* ---------------------- Nette\Database EXTENSION ---------------------- */
 
     /**
@@ -167,14 +158,16 @@ class Repository extends \Nette\Object
         return $query;
     }
 
-    /*
-     * @return \Nette\Database\Connection
-     */
-
     /** @deprecated */
     final public function getDb()
     {
         return $this->connection;
+    }
+
+    /** @deprecated */
+    final protected function getParent()
+    {
+        return $this->parent;
     }
 
 }
