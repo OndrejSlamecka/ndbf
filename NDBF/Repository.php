@@ -17,9 +17,6 @@ class Repository extends \Nette\Object
 {
 	/* ---------------------------- VARIABLES ------------------------------- */
 
-	/** @var \NDBF\RepositoryManager */
-	protected $parent;
-
 	/** @var \Nette\Database\Connection */
 	protected $connection;
 
@@ -29,9 +26,8 @@ class Repository extends \Nette\Object
 
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-	public function __construct(RepositoryManager $parent, \Nette\Database\Connection $connection, $tableName = null)
+	public function __construct(\Nette\Database\Connection $connection, $tableName = null)
 	{
-		$this->parent = $parent;
 		$this->connection = $connection;
 
 		// DATABASE TABLE NAME
@@ -120,14 +116,6 @@ class Repository extends \Nette\Object
 		}else
 			$this->connection
 					->exec('UPDATE `' . $this->tableName . '` SET ? WHERE `' . $tableId . '` = ?', $record, $record[$tableId]);
-	}
-
-	/* --- DEPRECATED --- */
-
-	/** @deprecated */
-	final protected function getParent()
-	{
-		return $this->parent;
 	}
 
 }
