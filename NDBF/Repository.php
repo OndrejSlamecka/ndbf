@@ -93,8 +93,8 @@ class Repository extends \Nette\Object
 
 	/**
 	 * Saves record
-	 * @param type $record
-	 * @param type $tableId
+	 * @param array $record
+	 * @param string $tableId
 	 */
 	public function save(&$record, $tableId)
 	{
