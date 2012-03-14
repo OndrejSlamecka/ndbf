@@ -19,16 +19,14 @@ require_once LIBS_DIR . '/Nette/loader.php';
 $configurator = new Nette\Config\Configurator();
 $configurator->setTempDirectory(TESTS_DIR . '/temp');
 
-$container = $configurator->createContainer();
-
 // Setup RobotLoader
-$robotLoader = $configurator->createRobotLoader();
-$robotLoader->addDirectory(LIBS_DIR);
-$robotLoader->register();
+$configurator->createRobotLoader()
+		->addDirectory(LIBS_DIR)
+		->register();
 
-// Configurate and setup database
-const DB_DSN = 'mysql:host=localhost;dbname=cms';
-const DB_USER = 'root';
-const DB_PASSWORD = 'root';
+require_once __DIR__ . '/ExampleRepository.php';
 
-$container->container->addService('database', new \Nette\Database\Connection(DB_DSN, DB_USER, DB_PASSWORD));
+$configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new NDBF\CompilerExtension); };
+
+$configurator->addConfig('test.config.neon', FALSE);
+$container = $configurator->createContainer();

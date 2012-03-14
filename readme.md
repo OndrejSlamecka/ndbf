@@ -6,20 +6,16 @@ Please introduce yourself to Nette\Database syntax first, because it is essentia
 
 Use
 ---
-In config.neon you create the service like below. Service with Nette\Database\Connection is required, but how you create it is up to you.
+In config.neon create database connection/service using class Nette\Database\Connection. Then in bootstrap.php add following callback:
 
-    services:
-        database: Nette\Database\Connection('mysql:host=localhost;dbname=testdb','root','toor')
-        repositoryManager: NDBF\RepositoryManager(...)
-
+    $configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new NDBF\CompilerExtension); };
 
 Put this method into your BasePresenter:
 
-    final public function getRepositories()
+    public function getRepositories()
     {
         return $this->getService('repositoryManager');
     }
-
 
 And you can use it in your presenters:
 
@@ -40,28 +36,11 @@ And you can use it in your presenters:
     $products->remove(array('id' => 15));
 
 
-If default functions (see NDBF\Repository) aren't enough for you, just extend them by writing your own repository.
-Do you want to extend Product repository?
-
-    namespace Application\Repository; // This namespace is necessary
-
-    class Product extends \NDBF\Repository
-    {
-        function findOnlyFifteenCoolProducts()
-        {
-            return $this->select('is_cool', true)->limit(15);
-        }
-    }
-
-If you need more dependencies than given by RepositoryManager I suggest you to extend
-RepositoryManager like [this](https://github.com/OndrejSlamecka/CoolMS/blob/dev/app/commons/models/RepositoryManager.php) (+[config](https://github.com/OndrejSlamecka/CoolMS/blob/dev/app/config/config.neon#L31))
-and Repository like [this](https://github.com/OndrejSlamecka/CoolMS/blob/dev/app/BackendCore/MenuModule/models/Repositories/Menuitem.php#L18).
+For guide on own repositories and further information see [the wiki](https://github.com/OndrejSlamecka/NDBF/wiki).
 
 
 Disclaimer
 ----------
-Released under the New BSD license.
-
 This is not a part of Nette Framework!! Use at your own risk.
 
-
+Released under the New BSD license.

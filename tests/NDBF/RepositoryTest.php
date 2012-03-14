@@ -16,7 +16,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
     private $reflection;
 
     /** @var Nette\Database\Connection */
-    private $database;
+    private $connection;
 
     private function getClassProperty($name)
     {
@@ -31,33 +31,26 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $container = \Nette\Environment::getContext();
 
         /** @var Nette\DI\Container */
-        $this->database = $container->database;
+        $this->connection = $container->getByType('Nette\Database\Connection');
 
         // Instance and reflection
-        $this->instance = new \NDBF\Repository(new NDBF\RepositoryManager($container->database), $container->database, 'testtable');
+        $this->instance = new \NDBF\Repository($this->connection, 'Testtable');
         $this->reflection = new \Nette\Reflection\ClassType($this->instance);
 
         // Truncate
-        $table_name = $this->getClassProperty('table_name');
-        $this->database->exec("TRUNCATE TABLE $table_name");
+        $tableName = $this->getClassProperty('tableName');
+        $this->connection->exec("TRUNCATE TABLE $tableName");
     }
 
     public function test__constructor()
     {
-        self::assertInternalType('string', $this->getClassProperty('table_name'));
-        self::assertFalse((bool) preg_match('~[A-Z]~', $this->getClassProperty('table_name')));
-    }
-
-    public function testGetDb()
-    {
-        $connection = $this->getClassProperty('connection');
-
-        self::assertInstanceOf('Nette\Database\Connection', $connection);
+        self::assertInternalType('string', $this->getClassProperty('tableName'));
+        self::assertFalse((bool) preg_match('~[A-Z]~', $this->getClassProperty('tableName')));
     }
 
     public function testTable()
     {
-        self::assertInstanceOf('Nette\Database\Table\Selection', $this->instance->table($this->getClassProperty('table_name')));
+        self::assertInstanceOf('Nette\Database\Table\Selection', $this->instance->table($this->getClassProperty('tableName')));
     }
 
     public function testSave()
@@ -70,21 +63,21 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->instance->save($row, 'id');
 
         // Expected: 1 item in db, id given to row
-        $this->assertEquals(1, $this->database->table($this->getClassProperty('table_name'))->count());
+        $this->assertEquals(1, $this->connection->table($this->getClassProperty('tableName'))->count());
         //$this->assertEquals(1, $row['id'] ); // This assertion would be obsolete (if no id was given, two records would be present)
 
 
         /* Re-inserting deleted items */
         $row = array('id' => 2);
 
-        $this->database->exec('INSERT INTO ' . $this->getClassProperty('table_name'), $row);
+        $this->connection->exec('INSERT INTO ' . $this->getClassProperty('tableName'), $row);
 
         // In row id is 2, remove that record
-        $this->database->exec('DELETE FROM ' . $this->getClassProperty('table_name') . ' WHERE id=?', $row['id']);
+        $this->connection->exec('DELETE FROM ' . $this->getClassProperty('tableName') . ' WHERE id=?', $row['id']);
 
         $this->instance->save($row, 'id'); // Re-insert of deleted item
 
-        $this->assertEquals(2, $this->database->table($this->getClassProperty('table_name'))->count());
+        $this->assertEquals(2, $this->connection->table($this->getClassProperty('tableName'))->count());
     }
 
 }

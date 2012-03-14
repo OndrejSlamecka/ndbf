@@ -1,0 +1,9 @@
+nette:
+    database:
+        default:
+            dsn: 'mysql:host=localhost;dbname=ndbf'
+            user: root
+
+ndbf:
+    repositories:
+        Example: ExampleRepository
