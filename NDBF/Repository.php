@@ -8,7 +8,7 @@
  *
  */
 
-namespace NDBF;
+namespace Ndbf;
 
 /**
  * Basic repository class

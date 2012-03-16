@@ -8,7 +8,7 @@
  *
  */
 
-namespace NDBF;
+namespace Ndbf;
 
 class CompilerExtension extends \Nette\Config\CompilerExtension
 {
@@ -38,9 +38,9 @@ class CompilerExtension extends \Nette\Config\CompilerExtension
 			}
 		}
 
-		// NDBF\RepositoryManager service
+		// Ndbf\RepositoryManager service
 		$builder->addDefinition($this->prefix('repositoryManager'))
-				->setClass('NDBF\RepositoryManager');
+				->setClass('Ndbf\RepositoryManager');
 	}
 
 }

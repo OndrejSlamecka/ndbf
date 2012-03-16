@@ -1,6 +1,6 @@
 <?php
 
-class ExampleRepository extends NDBF\Repository
+class ExampleRepository extends Ndbf\Repository
 {
 
 }

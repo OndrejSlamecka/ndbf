@@ -34,7 +34,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->connection = $container->getByType('Nette\Database\Connection');
 
         // Instance and reflection
-        $this->instance = new \NDBF\Repository($this->connection, 'Testtable');
+        $this->instance = new \Ndbf\Repository($this->connection, 'Testtable');
         $this->reflection = new \Nette\Reflection\ClassType($this->instance);
 
         // Truncate

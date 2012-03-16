@@ -4,7 +4,7 @@
  * Ondrej Slamecka, www.slamecka.cz
  *
  * To run tests with following settings, you need to have Nette in the same folder as NDBF
- * Edit variables $dsn, $user, $password according to your needs
+ * Edit test.config.neon
  *
  */
 // Define paths
@@ -26,7 +26,7 @@ $configurator->createRobotLoader()
 
 require_once __DIR__ . '/ExampleRepository.php';
 
-$configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new NDBF\CompilerExtension); };
+$configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new Ndbf\CompilerExtension); };
 
 $configurator->addConfig('test.config.neon', FALSE);
 $container = $configurator->createContainer();

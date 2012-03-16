@@ -8,7 +8,7 @@
  *
  */
 
-namespace NDBF;
+namespace Ndbf;
 
 class RepositoryManager
 {
@@ -28,9 +28,9 @@ class RepositoryManager
 	}
 
 	/**
-	 * Returns instance of Application\Repository\<$repository> if exists else instance of NDBF\Repository
+	 * Returns instance of Application\Repository\<$repository> if exists else instance of Ndbf\Repository
 	 * @param string Repository name
-	 * @return NDBF\Repository
+	 * @return Repository
 	 */
 	public function getRepository($name)
 	{
@@ -48,7 +48,7 @@ class RepositoryManager
 	/**
 	 * Getter and shortuct for getRepository()
 	 * @param string Repository name
-	 * @return NDBF\Repository
+	 * @return Ndbf\Repository
 	 */
 	public function __get($name)
 	{

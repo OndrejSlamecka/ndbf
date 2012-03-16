@@ -3,6 +3,7 @@ nette:
         default:
             dsn: 'mysql:host=localhost;dbname=ndbf'
             user: root
+            password: toor
 
 ndbf:
     repositories:
