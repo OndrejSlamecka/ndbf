@@ -9,11 +9,10 @@
  */
 // Define paths
 define('TESTS_DIR', __DIR__);
-define('LIBS_DIR', TESTS_DIR . '/..');
 
 // Require libraries
 require_once 'PHPUnit/Autoload.php';
-require_once LIBS_DIR . '/Nette/loader.php';
+require_once __DIR__ . '/../vendor/pear-nette/nette/Nette/loader.php';
 
 // Setup configurator
 $configurator = new Nette\Config\Configurator();
@@ -21,7 +20,7 @@ $configurator->setTempDirectory(TESTS_DIR . '/temp');
 
 // Setup RobotLoader
 $configurator->createRobotLoader()
-		->addDirectory(LIBS_DIR)
+		->addDirectory(__DIR__ . '/../Ndbf')
 		->register();
 
 require_once __DIR__ . '/ExampleRepository.php';

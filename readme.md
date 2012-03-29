@@ -8,7 +8,7 @@ Use
 ---
 In config.neon create database connection/service using class Nette\Database\Connection. Then in bootstrap.php add following callback:
 
-    $configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new NDBF\CompilerExtension); };
+    $configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new Ndbf\CompilerExtension); };
 
 Put this method into your BasePresenter:
 
@@ -36,7 +36,7 @@ And you can use it in your presenters:
     $products->remove(array('id' => 15));
 
 
-For guide on own repositories and further information see [the wiki](https://github.com/OndrejSlamecka/NDBF/wiki).
+For guide on own repositories and further information see [the wiki](/OndrejSlamecka/ndbf/wiki).
 
 
 Disclaimer

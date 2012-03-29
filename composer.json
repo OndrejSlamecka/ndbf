@@ -1,0 +1,23 @@
+{
+	"name": "slamecka/ndbf",
+	"description": "Layer for Nette Database treating tables like repositories with cool DI features.",
+	"keywords": ["Nette", "database"],
+	"license": "BSD-3",
+	"authors": [
+		{
+			"name": "Ondrej Slamecka",
+			"email": "ondrej@slamecka.cz",
+			"homepage": "http://www.slamecka.cz"
+		}
+	],
+	"repositories": [
+		{
+			"type": "pear",
+			"url": "http://pear.nette.org"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"pear-nette/Nette": "2.0.1"
+	}
+}

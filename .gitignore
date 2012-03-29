@@ -1,2 +1,4 @@
-Nette/
+vendor
+composer.lock
+composer.phar
 tests/temp/
