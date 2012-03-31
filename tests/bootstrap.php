@@ -12,7 +12,7 @@ define('TESTS_DIR', __DIR__);
 
 // Require libraries
 require_once 'PHPUnit/Autoload.php';
-require_once __DIR__ . '/../vendor/pear-nette/nette/Nette/loader.php';
+require_once __DIR__ . '/../vendor/nette/nette/Nette/loader.php';
 
 // Setup configurator
 $configurator = new Nette\Config\Configurator();
