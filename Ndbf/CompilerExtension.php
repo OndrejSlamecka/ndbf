@@ -22,7 +22,7 @@ class CompilerExtension extends \Nette\Config\CompilerExtension
 		if (isset($config['repositories'])) {
 			foreach ($config['repositories'] as $name => $value) {
 
-				$className = isset($value['class']) ? $value['class'] : $value;
+				$className = is_array($value['class']) ? $value['class'] : $value;
 				$serviceDefinition = $builder->addDefinition($this->prefix('repositories.' . $name))
 						->setClass($className);
 
