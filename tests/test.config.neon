@@ -8,3 +8,5 @@ nette:
 ndbf:
     repositories:
         Example: ExampleRepository
+        Example2:
+            class: ExampleRepository2

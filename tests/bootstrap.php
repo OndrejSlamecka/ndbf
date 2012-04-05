@@ -24,6 +24,7 @@ $configurator->createRobotLoader()
 		->register();
 
 require_once __DIR__ . '/ExampleRepository.php';
+require_once __DIR__ . '/ExampleRepository2.php';
 
 $configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new Ndbf\CompilerExtension); };
 
