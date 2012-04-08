@@ -4,6 +4,18 @@ NDBF - Layer for Nette\Database
 NDBF is a thin layer above Nette\Database which offers interface based on repository manager/repositories model.
 Please introduce yourself to Nette\Database syntax first, because it is essential to understand NDBF.
 
+Install
+-------
+
+NDBF is [available through Packagist](http://packagist.org/packages/slamecka/ndbf) (the main repository of [Composer](http://getcomposer.org)).
+
+	"require": {
+		"nette/nette": "2.*",
+		"slamecka/ndbf": "*"
+	}
+
+Or you can of course download it from GitHub.
+
 Use
 ---
 In config.neon create database connection/service using class Nette\Database\Connection. Then in bootstrap.php add following callback:
