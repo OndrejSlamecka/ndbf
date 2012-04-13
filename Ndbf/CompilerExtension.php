@@ -30,6 +30,10 @@ class CompilerExtension extends \Nette\Config\CompilerExtension
 				$serviceDefinition = $builder->addDefinition($this->prefix('repositories.' . $name))
 						->setClass($className);
 
+				if (is_array($value) && isset($value['primaryKey'])) {
+					$serviceDefinition->setArguments(array('tablePrimaryKey' => $value['primaryKey']));
+				}
+
 				if (is_array($value) && isset($value['setup'])) {
 					foreach ($value['setup'] as $setup) {
 						$attributes = isset($setup->attributes) ? $setup->attributes : array();

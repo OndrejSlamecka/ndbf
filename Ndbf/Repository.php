@@ -23,10 +23,12 @@ class Repository extends \Nette\Object
 	/** @var string Associated table name */
 	protected $tableName;
 
+	/** @var string Table unique identifier - primary key */
+	protected $tablePrimaryKey;
 
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-	public function __construct(\Nette\Database\Connection $connection, $tableName = null)
+	public function __construct(\Nette\Database\Connection $connection, $tableName = NULL, $tablePrimaryKey = NULL)
 	{
 		$this->connection = $connection;
 
@@ -36,6 +38,8 @@ class Repository extends \Nette\Object
 			$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
 		}
 		$this->tableName = strtolower($tableName); // Lowercase convention!
+
+		$this->tablePrimaryKey = $tablePrimaryKey;
 	}
 
 	/* ---------------------- Nette\Database EXTENSION ---------------------- */
@@ -90,17 +94,24 @@ class Repository extends \Nette\Object
 	/**
 	 * Saves record
 	 * @param array $record
-	 * @param string $tableId
+	 * @param string $tablePrimaryKey
 	 */
-	public function save(&$record, $tableId)
+	public function save(&$record, $tablePrimaryKey = NULL)
 	{
+		// Determine table primary key
+		if ($this->tablePrimaryKey !== NULL) {
+			$tablePrimaryKey = $this->tablePrimaryKey;
+		} elseif ($tablePrimaryKey === NULL) {
+			throw new \InvalidArgumentException("Missing second parameter for 'NDBF::save'");
+		}
+
 		// If there is no ID, we MUST insert
-		if (!isset($record[$tableId])) {
+		if (!isset($record[$tablePrimaryKey])) {
 			$insert = true;
 		} else {
 			// There is an ID
 			// Following condition allows restoring deleted items
-			if ($this->select($tableId)->where($tableId, $record[$tableId])->fetch()) // Is this entity already stored?
+			if ($this->select($tablePrimaryKey)->where($tablePrimaryKey, $record[$tablePrimaryKey])->fetch()) // Is this entity already stored?
 				$insert = false; // Yes it is, so we'll update it
 			else
 				$insert = true; // No it isn't so insert
@@ -112,10 +123,10 @@ class Repository extends \Nette\Object
 					->exec('INSERT INTO `' . $this->tableName . '`', $record);
 
 			// Set last inserted item id
-			$record[$tableId] = $this->connection->lastInsertId();
+			$record[$tablePrimaryKey] = $this->connection->lastInsertId();
 		}else
 			$this->connection
-					->exec('UPDATE `' . $this->tableName . '` SET ? WHERE `' . $tableId . '` = ?', $record, $record[$tableId]);
+					->exec('UPDATE `' . $this->tableName . '` SET ? WHERE `' . $tablePrimaryKey . '` = ?', $record, $record[$tablePrimaryKey]);
 	}
 
 }
