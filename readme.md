@@ -44,6 +44,8 @@ And you can use it in your presenters:
     // Updates product
     $product->save($product, 'id'); // $product has id assigned from the previous save
 
+	// You don't have to pass primary key ('id') to _save_ if you set up NDBF properly - see the wiki
+
     // Removes product with id 15
     $products->remove(array('id' => 15));
 
