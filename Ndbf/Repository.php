@@ -109,7 +109,7 @@ class Repository extends \Nette\Object
 	 */
 	public function delete($conditions)
 	{
-		$this->connection->exec('DELETE FROM `' . $this->tableName . '` WHERE ', $conditions);
+		$this->table()->where($conditions)->delete();
 	}
 
 	/**
@@ -140,14 +140,13 @@ class Repository extends \Nette\Object
 
 
 		if ($insert) {
-			$this->connection
-					->exec('INSERT INTO `' . $this->tableName . '`', $record);
+			$this->table()->insert($record);
 
 			// Set last inserted item id
 			$record[$tablePrimaryKey] = $this->connection->lastInsertId();
-		}else
-			$this->connection
-					->exec('UPDATE `' . $this->tableName . '` SET ? WHERE `' . $tablePrimaryKey . '` = ?', $record, $record[$tablePrimaryKey]);
+		} else {
+			$this->table()->where($tablePrimaryKey, $record[$tablePrimaryKey])->update($record);
+		}
 	}
 
 }

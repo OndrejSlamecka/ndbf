@@ -82,4 +82,15 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, $this->connection->table($this->getClassProperty('tableName'))->count());
     }
 
+	public function testDelete()
+	{
+		$nRows = $this->instance->count();
+
+		$row = array();
+		$this->instance->save($row, 'id');
+		$this->instance->delete(array('id' => $row['id']));
+
+		$this->assertEquals($nRows, $this->instance->count());
+    }
+
 }
