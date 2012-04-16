@@ -94,12 +94,12 @@ class Repository extends \Nette\Object
 
 	/**
 	 * Counts table's rows.
-	 * @param array,null $conditions
+	 * @param string $column
 	 * @return int
 	 */
-	public function count()
+	public function count($column = '')
 	{
-		return $this->table()->count();
+		return $this->table()->count($column);
 	}
 
 	/**
