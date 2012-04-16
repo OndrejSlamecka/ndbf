@@ -28,17 +28,38 @@ class Repository extends \Nette\Object
 
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-	public function __construct(\Nette\Database\Connection $connection, $tableName = NULL, $tablePrimaryKey = NULL)
+	/**
+	 * Always call parent constructor!
+	 */
+	public function __construct()
+	{
+		// Table name for own repositories
+		$tableName = get_class($this);
+		$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
+		$this->tableName = strtolower($tableName); // Lowercase convention!
+	}
+
+	/**
+	 * @internal
+	 */
+	public function setConnection(\Nette\Database\Connection $connection)
 	{
 		$this->connection = $connection;
+	}
 
-		// DATABASE TABLE NAME
-		if ($tableName === null) {
-			$tableName = get_class($this);
-			$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
-		}
+	/**
+	 * @internal
+	 */
+	public function setTableName($tableName)
+	{
 		$this->tableName = strtolower($tableName); // Lowercase convention!
+	}
 
+	/**
+	 * @internal
+	 */
+	public function setTablePrimaryKey($tablePrimaryKey)
+	{
 		$this->tablePrimaryKey = $tablePrimaryKey;
 	}
 

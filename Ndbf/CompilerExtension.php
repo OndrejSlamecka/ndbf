@@ -20,27 +20,40 @@ class CompilerExtension extends \Nette\Config\CompilerExtension
 
 		/* --- Repositories --- */
 		if (isset($config['repositories'])) {
-			foreach ($config['repositories'] as $name => $value) {
+			foreach ($config['repositories'] as $name => $definition) {
 
-				if (is_array($value) && !isset($value['class'])) {
-					throw new \InvalidArgumentException("Repository $name doesn't have defined 'class' parameter");
+				$serviceDefinition = $builder->addDefinition($this->prefix('repositories.' . $name));
+
+				// Class
+				if (is_string($definition)) {
+					$serviceDefinition->setClass($definition);
+				} else {
+					if (!isset($definition['class'])) {
+						throw new \InvalidArgumentException("Repository $name doesn't have defined 'class' parameter");
+					}
+
+					if (is_string($definition['class'])) {
+						$serviceDefinition->setClass($definition['class']);
+					} else {
+						$serviceDefinition->setClass($definition['class']->value, $definition['class']->attributes);
+					}
 				}
 
-				$className = is_array($value) ? $value['class'] : $value;
-				$serviceDefinition = $builder->addDefinition($this->prefix('repositories.' . $name))
-						->setClass($className);
 
-				if (is_array($value) && isset($value['primaryKey'])) {
-					$serviceDefinition->setArguments(array('tablePrimaryKey' => $value['primaryKey']));
+				// Primary key
+				if (isset($definition['primaryKey'])) {
+					$serviceDefinition->addSetup('setTablePrimaryKey', $definition['primaryKey']);
 				}
 
-				if (is_array($value) && isset($value['setup'])) {
-					foreach ($value['setup'] as $setup) {
+				// Setup
+				$serviceDefinition->addSetup('setConnection');
+				if (is_array($definition) && isset($definition['setup'])) {
+					foreach ($definition['setup'] as $setup) {
 						$attributes = isset($setup->attributes) ? $setup->attributes : array();
 						$attributes = $this->compiler->filterArguments($attributes);
 
-						$value = is_string($setup) ? $setup : $setup->value;
-						$serviceDefinition->addSetup($value, $attributes);
+						$val = is_string($setup) ? $setup : $setup->value;
+						$serviceDefinition->addSetup($val, $attributes);
 					}
 				}
 			}

@@ -16,19 +16,22 @@ class RepositoryManager
 	/** @var Nette\DI\Container */
 	private $container;
 
+	/** @var \Nette\Database\Connection */
+	private $connection;
+
 	/** @var array */
 	private $instantiatedRepositories;
 
-
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-	public function __construct(\Nette\DI\Container $container)
+	public function __construct(\Nette\DI\Container $container, \Nette\Database\Connection $connection)
 	{
 		$this->container = $container;
+		$this->connection = $connection;
 	}
 
 	/**
-	 * Returns instance of Application\Repository\<$repository> if exists else instance of Ndbf\Repository
+	 * Returns service ndbf.repositories.<$repository>  if exists else instance of Ndbf\Repository
 	 * @param string Repository name
 	 * @return Repository
 	 */
@@ -38,7 +41,9 @@ class RepositoryManager
 			return $this->container->getService('ndbf.repositories.' . $name);
 		} else {
 			if (empty($this->instantiatedRepositories) || !in_array($name, array_keys($this->instantiatedRepositories))) {
-				$instance = new Repository($this->container->getByType('Nette\Database\Connection'), $name);
+				$instance = new Repository();
+				$instance->setConnection($this->connection);
+				$instance->setTableName($name);
 				$this->instantiatedRepositories[$name] = $instance;
 			}
 			return $this->instantiatedRepositories[$name];

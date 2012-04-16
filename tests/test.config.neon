@@ -5,6 +5,9 @@ nette:
             user: root
             password: toor
 
+services:
+    database: @nette.database.default
+
 ndbf:
     repositories:
         Example: ExampleRepository
