@@ -35,8 +35,8 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
 
         // Instance and reflection
         $this->instance = new \Ndbf\Repository();
-		$this->instance->setConnection($this->connection);
-		$this->instance->setTableName('Testtable');
+        $this->instance->setConnection($this->connection);
+        $this->instance->setTableName('Testtable');
         $this->reflection = new \Nette\Reflection\ClassType($this->instance);
 
         // Truncate
