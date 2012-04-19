@@ -16,7 +16,7 @@ class RepositoryManager
 	/** @var Nette\DI\Container */
 	private $container;
 
-	/** @var \Nette\Database\Connection */
+	/** @var Nette\Database\Connection */
 	private $connection;
 
 	/** @var array */
@@ -24,6 +24,10 @@ class RepositoryManager
 
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
+	/**
+	 * @param Nette\DI\Container $container
+	 * @param Nette\Database\Connection $connection
+	 */
 	public function __construct(\Nette\DI\Container $container, \Nette\Database\Connection $connection)
 	{
 		$this->container = $container;
@@ -33,7 +37,7 @@ class RepositoryManager
 	/**
 	 * Returns service ndbf.repositories.<$repository>  if exists else instance of Ndbf\Repository
 	 * @param string Repository name
-	 * @return Repository
+	 * @return Ndbf\Repository
 	 */
 	public function getRepository($name)
 	{

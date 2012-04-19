@@ -17,7 +17,7 @@ class Repository extends \Nette\Object
 {
 	/* ---------------------------- VARIABLES ------------------------------- */
 
-	/** @var \Nette\Database\Connection */
+	/** @var Nette\Database\Connection */
 	protected $connection;
 
 	/** @var string Associated table name */
@@ -66,7 +66,7 @@ class Repository extends \Nette\Object
 	/* ---------------------- Nette\Database EXTENSION ---------------------- */
 
 	/**
-	 * @return \Nette\Database\Table\Selection
+	 * @return Nette\Database\Table\Selection
 	 */
 	final public function table()
 	{
@@ -74,7 +74,7 @@ class Repository extends \Nette\Object
 	}
 
 	/**
-	 * @return \Nette\Database\Table\Selection
+	 * @return Nette\Database\Table\Selection
 	 */
 	final public function select($columns = '*')
 	{
