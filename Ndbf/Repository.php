@@ -126,23 +126,21 @@ class Repository extends \Nette\Object
 			throw new \InvalidArgumentException("Missing second parameter for 'NDBF::save'");
 		}
 
-		// If there is no ID, we MUST insert
+		// Decide whether to insert or update
 		if (!isset($record[$tablePrimaryKey])) {
 			$insert = true;
 		} else {
-			// There is an ID
-			// Following condition allows restoring deleted items
-			if ($this->select($tablePrimaryKey)->where($tablePrimaryKey, $record[$tablePrimaryKey])->fetch()) // Is this entity already stored?
-				$insert = false; // Yes it is, so we'll update it
-			else
-				$insert = true; // No it isn't so insert
+			// This condition allows restoring of deleted items
+			if ($this->select($tablePrimaryKey)->where($tablePrimaryKey, $record[$tablePrimaryKey])->fetch()) {
+				$insert = false;
+			} else {
+				$insert = true;
+			}
 		}
 
-
+		// Perform
 		if ($insert) {
 			$this->table()->insert($record);
-
-			// Set last inserted item id
 			$record[$tablePrimaryKey] = $this->connection->lastInsertId();
 		} else {
 			$this->table()->where($tablePrimaryKey, $record[$tablePrimaryKey])->update($record);
