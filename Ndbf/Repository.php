@@ -36,7 +36,7 @@ class Repository extends \Nette\Object
 		// Table name for own repositories
 		$tableName = get_class($this);
 		$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
-		$this->tableName = strtolower($tableName); // Lowercase convention!
+		$this->setTableName($tableName);
 	}
 
 	/**
