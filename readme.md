@@ -26,7 +26,7 @@ Put this method into your BasePresenter:
 
     public function getRepositories()
     {
-        return $this->getService('repositoryManager');
+        return $this->context->getByType('Ndbf\RepositoryManager');
     }
 
 And you can use it in your presenters:
