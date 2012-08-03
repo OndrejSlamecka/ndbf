@@ -141,7 +141,7 @@ class Repository extends \Nette\Object
 		// Perform
 		if ($insert) {
 			$this->table()->insert($record);
-			$record[$tablePrimaryKey] = $this->connection->lastInsertId();
+			$record[$tablePrimaryKey] = $this->connection->lastInsertId($this->tableName . '_' . $tablePrimaryKey . '_seq');
 		} else {
 			$this->table()->where($tablePrimaryKey, $record[$tablePrimaryKey])->update($record);
 		}
