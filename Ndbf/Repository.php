@@ -24,7 +24,7 @@ class Repository extends \Nette\Object
 	protected $tableName;
 
 	/** @var string Table unique identifier - primary key */
-	protected $tablePrimaryKey;
+	protected $tablePrimaryKey = NULL;
 
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
@@ -117,21 +117,14 @@ class Repository extends \Nette\Object
 	 * @param array $record
 	 * @param string $tablePrimaryKey
 	 */
-	public function save(&$record, $tablePrimaryKey = NULL)
+	public function save(&$record)
 	{
-		// Determine table primary key
-		if ($this->tablePrimaryKey !== NULL) {
-			$tablePrimaryKey = $this->tablePrimaryKey;
-		} elseif ($tablePrimaryKey === NULL) {
-			throw new \InvalidArgumentException("Missing second parameter for 'NDBF::save'");
-		}
-
 		// Decide whether to insert or update
-		if (!isset($record[$tablePrimaryKey])) {
+		if ($this->tablePrimaryKey === NULL || !isset($record[$this->tablePrimaryKey])) {
 			$insert = true;
 		} else {
 			// This condition allows restoring of deleted items
-			if ($this->select($tablePrimaryKey)->where($tablePrimaryKey, $record[$tablePrimaryKey])->fetch()) {
+			if ($this->select($this->tablePrimaryKey)->where($this->tablePrimaryKey, $record[$tablePrimaryKey])->fetch()) {
 				$insert = false;
 			} else {
 				$insert = true;
@@ -141,9 +134,11 @@ class Repository extends \Nette\Object
 		// Perform
 		if ($insert) {
 			$this->table()->insert($record);
-			$record[$tablePrimaryKey] = $this->connection->lastInsertId($this->tableName . '_' . $tablePrimaryKey . '_seq');
+			if ($this->tablePrimaryKey !== NULL) {
+				$record[$this->tablePrimaryKey] = $this->connection->lastInsertId($this->tableName . '_' . $this->tablePrimaryKey . '_seq');
+			}
 		} else {
-			$this->table()->where($tablePrimaryKey, $record[$tablePrimaryKey])->update($record);
+			$this->table()->where($tablePrimaryKey, $record[$this->tablePrimaryKey])->update($record);
 		}
 	}
 
