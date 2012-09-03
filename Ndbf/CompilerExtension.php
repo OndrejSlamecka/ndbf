@@ -59,9 +59,6 @@ class CompilerExtension extends \Nette\Config\CompilerExtension
 			}
 		}
 
-		// Ndbf\RepositoryManager service
-		$builder->addDefinition($this->prefix('repositoryManager'))
-				->setClass('Ndbf\RepositoryManager');
 	}
 
 }
