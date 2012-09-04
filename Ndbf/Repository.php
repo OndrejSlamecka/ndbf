@@ -124,7 +124,7 @@ class Repository extends \Nette\Object
 			$insert = true;
 		} else {
 			// This condition allows restoring of deleted items
-			if ($this->select($this->tablePrimaryKey)->where($this->tablePrimaryKey, $record[$tablePrimaryKey])->fetch()) {
+			if ($this->select($this->tablePrimaryKey)->where($this->tablePrimaryKey, $record[$this->tablePrimaryKey])->fetch()) {
 				$insert = false;
 			} else {
 				$insert = true;
@@ -138,7 +138,7 @@ class Repository extends \Nette\Object
 				$record[$this->tablePrimaryKey] = $this->connection->lastInsertId($this->tableName . '_' . $this->tablePrimaryKey . '_seq');
 			}
 		} else {
-			$this->table()->where($tablePrimaryKey, $record[$this->tablePrimaryKey])->update($record);
+			$this->table()->where($this->tablePrimaryKey, $record[$this->tablePrimaryKey])->update($record);
 		}
 	}
 
