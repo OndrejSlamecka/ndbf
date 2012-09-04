@@ -1,8 +1,8 @@
 NDBF - Layer for Nette\Database
 ===============================
 
-NDBF is a thin layer above Nette\Database which offers interface based on repository manager/repositories model.
-Please introduce yourself to Nette\Database syntax first, because it is essential to understand NDBF.
+NDBF is a thin layer above Nette\Database which works with repositories rather than active rows.
+Please make sure you know Nette\Database because NDBF is just an extension.
 
 Installation and use
 --------------------
