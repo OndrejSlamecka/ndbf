@@ -10,6 +10,6 @@ services:
 
 ndbf:
     repositories:
-        Example: ExampleRepository
-        Example2:
-            class: ExampleRepository2
+        Testtable:
+            class: Testtable
+            primaryKey: id

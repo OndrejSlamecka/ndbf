@@ -34,9 +34,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->connection = $container->getByType('Nette\Database\Connection');
 
         // Instance and reflection
-        $this->instance = new \Ndbf\Repository();
-        $this->instance->setConnection($this->connection);
-        $this->instance->setTableName('Testtable');
+        $this->instance = $container->getByType('Testtable');
         $this->reflection = new \Nette\Reflection\ClassType($this->instance);
 
         // Truncate
@@ -61,8 +59,8 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $row = array();
 
         // Double save same record (same id - after first save written into record). One insert, one update
-        $this->instance->save($row, 'id');
-        $this->instance->save($row, 'id');
+        $this->instance->save($row);
+        $this->instance->save($row);
 
         // Expected: 1 item in db, id given to row
         $this->assertEquals(1, $this->connection->table($this->getClassProperty('tableName'))->count());
@@ -77,7 +75,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         // In row id is 2, remove that record
         $this->connection->exec('DELETE FROM ' . $this->getClassProperty('tableName') . ' WHERE id=?', $row['id']);
 
-        $this->instance->save($row, 'id'); // Re-insert of deleted item
+        $this->instance->save($row); // Re-insert of deleted item
 
         $this->assertEquals(2, $this->connection->table($this->getClassProperty('tableName'))->count());
     }
