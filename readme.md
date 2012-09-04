@@ -4,53 +4,10 @@ NDBF - Layer for Nette\Database
 NDBF is a thin layer above Nette\Database which offers interface based on repository manager/repositories model.
 Please introduce yourself to Nette\Database syntax first, because it is essential to understand NDBF.
 
-Install
--------
+Installation and use
+--------------------
 
-NDBF is [available through Packagist](http://packagist.org/packages/slamecka/ndbf) (the main repository of [Composer](http://getcomposer.org)).
-
-	"require": {
-		"nette/nette": "2.*",
-		"slamecka/ndbf": "*"
-	}
-
-Or you can of course download it from GitHub.
-
-Use
----
-In config.neon create database connection/service using class Nette\Database\Connection. Then in bootstrap.php add following callback:
-
-    $configurator->onCompile[] = function ($cf, $compiler) { $compiler->addExtension('ndbf', new Ndbf\CompilerExtension); };
-
-Put this method into your BasePresenter:
-
-    public function getRepositories()
-    {
-        return $this->context->getByType('Ndbf\RepositoryManager');
-    }
-
-And you can use it in your presenters:
-
-    // In renderDefault() or similar:
-    $products = $this->repositories->Product;
-
-    // Use simplified methods select(), table(), fetchPairs(), count()
-    $products->select()->where('color', 'red')->order('price');
-
-    // Saves new $product
-    $product = array('name' => 'FooBar');
-    $products->save($product, 'id'); // $product recieves newly assigned id after save
-
-    // Updates product
-    $product->save($product, 'id'); // $product has id assigned from the previous save
-
-	// You don't have to pass primary key ('id') to _save_ if you set up NDBF properly - see the wiki
-
-    // Removes product with id 15
-    $products->remove(array('id' => 15));
-
-
-For guide on own repositories and further information see [the wiki](/OndrejSlamecka/ndbf/wiki).
+See [the wiki](/OndrejSlamecka/ndbf/wiki).
 
 
 Disclaimer
