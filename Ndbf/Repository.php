@@ -35,7 +35,11 @@ class Repository extends \Nette\Object
 	{
 		// Table name for own repositories
 		$tableName = get_class($this);
-		$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
+
+		if ($pos = strrpos($tableName, '\\')) {
+			$tableName = substr($tableName, $pos + 1);
+		}
+
 		$this->setTableName($tableName);
 	}
 
@@ -134,6 +138,7 @@ class Repository extends \Nette\Object
 		// Perform
 		if ($insert) {
 			$this->table()->insert($record);
+
 			if ($this->tablePrimaryKey !== NULL) {
 				$record[$this->tablePrimaryKey] = $this->connection->lastInsertId($this->tableName . '_' . $this->tablePrimaryKey . '_seq');
 			}
