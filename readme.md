@@ -7,7 +7,7 @@ Please make sure you know Nette\Database because NDBF is just an extension.
 Installation and use
 --------------------
 
-See [the wiki](/OndrejSlamecka/ndbf/wiki).
+See [the wiki](/wiki).
 
 
 Disclaimer
