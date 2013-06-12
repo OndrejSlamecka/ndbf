@@ -10,7 +10,7 @@
 
 namespace Ndbf;
 
-class CompilerExtension extends \Nette\Config\CompilerExtension
+class CompilerExtension extends \Nette\DI\CompilerExtension
 {
 
 	public function loadConfiguration()

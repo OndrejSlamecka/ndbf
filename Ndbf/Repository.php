@@ -10,6 +10,8 @@
 
 namespace Ndbf;
 
+use Nette\Database\SelectionFactory;
+
 /**
  * Basic repository class
  */
@@ -35,11 +37,7 @@ class Repository extends \Nette\Object
 	{
 		// Table name for own repositories
 		$tableName = get_class($this);
-
-		if ($pos = strrpos($tableName, '\\')) {
-			$tableName = substr($tableName, $pos + 1);
-		}
-
+		$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
 		$this->setTableName($tableName);
 	}
 
@@ -74,7 +72,7 @@ class Repository extends \Nette\Object
 	 */
 	final public function table()
 	{
-		return $this->connection->table($this->tableName);
+		return (new SelectionFactory($this->connection))->table($this->tableName);
 	}
 
 	/**
@@ -82,7 +80,7 @@ class Repository extends \Nette\Object
 	 */
 	final public function select($columns = '*')
 	{
-		return $this->connection->table($this->tableName)->select($columns);
+		return $this->table()->select($columns);
 	}
 
 	/**
@@ -138,7 +136,6 @@ class Repository extends \Nette\Object
 		// Perform
 		if ($insert) {
 			$this->table()->insert($record);
-
 			if ($this->tablePrimaryKey !== NULL) {
 				$record[$this->tablePrimaryKey] = $this->connection->lastInsertId($this->tableName . '_' . $this->tablePrimaryKey . '_seq');
 			}
