@@ -1,5 +1,5 @@
-NDBF - Layer for Nette\Database
-===============================
+NDBF - A simplification layer for Nette\Database
+================================================
 
 NDBF is a thin layer above Nette\Database which works with repositories rather than active rows.
 Please make sure you know Nette\Database because NDBF is just an extension.
