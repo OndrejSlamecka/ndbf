@@ -46,7 +46,8 @@ class CompilerExtension extends \Nette\DI\CompilerExtension
 				}
 
 				// Setup
-				$serviceDefinition->addSetup('setConnection');
+				$serviceDefinition->addSetup('injectConnection');
+				$serviceDefinition->addSetup('injectSelectionFactory');
 				if (is_array($definition) && isset($definition['setup'])) {
 					foreach ($definition['setup'] as $setup) {
 						$attributes = isset($setup->attributes) ? $setup->attributes : array();

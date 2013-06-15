@@ -22,6 +22,9 @@ class Repository extends \Nette\Object
 	/** @var Nette\Database\Connection */
 	protected $connection;
 
+	/** @var Nette\Database\SelectionFactory */
+	protected $selectionFactory;
+
 	/** @var string Associated table name */
 	protected $tableName;
 
@@ -44,9 +47,17 @@ class Repository extends \Nette\Object
 	/**
 	 * @internal
 	 */
-	public function setConnection(\Nette\Database\Connection $connection)
+	public function injectConnection(\Nette\Database\Connection $connection)
 	{
 		$this->connection = $connection;
+	}
+
+	/**
+	 * @internal
+	 */
+	public function injectSelectionFactory(\Nette\Database\SelectionFactory $selectionFactory)
+	{
+		$this->selectionFactory = $selectionFactory;
 	}
 
 	/**
@@ -72,7 +83,7 @@ class Repository extends \Nette\Object
 	 */
 	final public function table()
 	{
-		return (new SelectionFactory($this->connection))->table($this->tableName);
+		return $this->selectionFactory->table($this->tableName);
 	}
 
 	/**
@@ -137,7 +148,7 @@ class Repository extends \Nette\Object
 		if ($insert) {
 			$this->table()->insert($record);
 			if ($this->tablePrimaryKey !== NULL) {
-				$record[$this->tablePrimaryKey] = $this->connection->lastInsertId($this->tableName . '_' . $this->tablePrimaryKey . '_seq');
+				$record[$this->tablePrimaryKey] = $this->connection->getInsertId($this->tableName . '_' . $this->tablePrimaryKey . '_seq');
 			}
 		} else {
 			$this->table()->where($this->tablePrimaryKey, $record[$this->tablePrimaryKey])->update($record);
