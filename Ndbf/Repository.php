@@ -41,7 +41,7 @@ class Repository extends \Nette\Object
 		// Table name for own repositories
 		$tableName = get_class($this);
 		$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
-		$this->setTableName($tableName);
+		$this->tableName = $tableName;
 	}
 
 	/**
@@ -58,14 +58,6 @@ class Repository extends \Nette\Object
 	public function injectSelectionFactory(\Nette\Database\SelectionFactory $selectionFactory)
 	{
 		$this->selectionFactory = $selectionFactory;
-	}
-
-	/**
-	 * @internal
-	 */
-	public function setTableName($tableName)
-	{
-		$this->tableName = strtolower($tableName); // Lowercase convention!
 	}
 
 	/**
