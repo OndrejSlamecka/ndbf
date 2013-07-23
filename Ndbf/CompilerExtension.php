@@ -39,6 +39,8 @@ class CompilerExtension extends \Nette\DI\CompilerExtension
 					}
 				}
 
+				// Table name
+				$serviceDefinition->addSetup('setTableName', $name);
 
 				// Primary key
 				if (isset($definition['primaryKey'])) {

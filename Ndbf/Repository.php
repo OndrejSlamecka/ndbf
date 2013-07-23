@@ -36,19 +36,6 @@ class Repository extends \Nette\Object
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
 	/**
-	 * Always call parent constructor!
-	 */
-	public function __construct()
-	{
-		// Table name for own repositories
-		$tableName = get_class($this);
-		$tableName = substr($tableName, strrpos($tableName, '\\') + 1);
-		$this->tableName = $tableName;
-	}
-
-
-
-	/**
 	 * @internal
 	 */
 	public function injectConnection(\Nette\Database\Connection $connection)
@@ -64,6 +51,16 @@ class Repository extends \Nette\Object
 	public function injectSelectionFactory(\Nette\Database\SelectionFactory $selectionFactory)
 	{
 		$this->selectionFactory = $selectionFactory;
+	}
+
+
+
+	/**
+	 * @internal
+	 */
+	public function setTableName($tableName)
+	{
+		$this->tableName = $tableName;
 	}
 
 
