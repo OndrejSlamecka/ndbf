@@ -31,6 +31,8 @@ class Repository extends \Nette\Object
 	/** @var string Table unique identifier - primary key */
 	protected $tablePrimaryKey = NULL;
 
+
+
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
 	/**
@@ -44,6 +46,8 @@ class Repository extends \Nette\Object
 		$this->tableName = $tableName;
 	}
 
+
+
 	/**
 	 * @internal
 	 */
@@ -51,6 +55,8 @@ class Repository extends \Nette\Object
 	{
 		$this->connection = $connection;
 	}
+
+
 
 	/**
 	 * @internal
@@ -60,6 +66,8 @@ class Repository extends \Nette\Object
 		$this->selectionFactory = $selectionFactory;
 	}
 
+
+
 	/**
 	 * @internal
 	 */
@@ -67,6 +75,8 @@ class Repository extends \Nette\Object
 	{
 		$this->tablePrimaryKey = $tablePrimaryKey;
 	}
+
+
 
 	/* ---------------------- Nette\Database EXTENSION ---------------------- */
 
@@ -78,6 +88,8 @@ class Repository extends \Nette\Object
 		return $this->selectionFactory->table($this->tableName);
 	}
 
+
+
 	/**
 	 * @return Nette\Database\Table\Selection
 	 */
@@ -85,6 +97,8 @@ class Repository extends \Nette\Object
 	{
 		return $this->table()->select($columns);
 	}
+
+
 
 	/**
 	 * Returns all rows as an associative array.
@@ -97,6 +111,8 @@ class Repository extends \Nette\Object
 		return $this->table()->fetchPairs($key, $val);
 	}
 
+
+
 	/**
 	 * Counts table's rows.
 	 * @param string $column
@@ -107,6 +123,8 @@ class Repository extends \Nette\Object
 		return $this->table()->count($column);
 	}
 
+
+
 	/**
 	 * Deletes entity from db.
 	 * @param array $conditions
@@ -116,6 +134,8 @@ class Repository extends \Nette\Object
 	{
 		$this->table()->where($conditions)->delete();
 	}
+
+
 
 	/**
 	 * Saves record
