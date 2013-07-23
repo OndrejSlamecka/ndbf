@@ -164,4 +164,17 @@ class Repository extends \Nette\Object
 		}
 	}
 
+
+
+	/**
+	 * Performs queries and commands given in callback during one transaction
+	 * @param  callback $callback
+	 */
+	public function transaction($callback)
+	{
+		$this->connection->beginTransaction();
+		call_user_func($callback);
+		$this->connection->commit();
+	}
+
 }
