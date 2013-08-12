@@ -173,8 +173,9 @@ class Repository extends \Nette\Object
 	public function transaction($callback)
 	{
 		$this->connection->beginTransaction();
-		call_user_func($callback);
+		$return = call_user_func($callback);
 		$this->connection->commit();
+		return $return;
 	}
 
 }
