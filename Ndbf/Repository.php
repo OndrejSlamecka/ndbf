@@ -157,7 +157,7 @@ class Repository extends \Nette\Object
 		if ($insert) {
 			$this->table()->insert($record);
 			if ($this->tablePrimaryKey !== NULL) {
-				$record[$this->tablePrimaryKey] = $this->connection->getInsertId($this->tableName . '_' . $this->tablePrimaryKey . '_seq');
+				$record[$this->tablePrimaryKey] = $this->connection->getInsertId('"' . $this->tableName . '_' . $this->tablePrimaryKey . '_seq"');
 			}
 		} else {
 			$this->table()->where($this->tablePrimaryKey, $record[$this->tablePrimaryKey])->update($record);
