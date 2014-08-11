@@ -15,8 +15,8 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
     private $instance;
     private $reflection;
 
-    /** @var Nette\Database\Connection */
-    private $connection;
+    /** @var Nette\Database\Context */
+    private $context;
 
     private function getClassProperty($name)
     {
@@ -31,7 +31,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $container = \Nette\Environment::getContext();
 
         /** @var Nette\DI\Container */
-        $this->connection = $container->getByType('Nette\Database\Connection');
+        $this->context = $container->getByType('Nette\Database\Context');
 
         // Instance and reflection
         $this->instance = $container->getByType('Testtable');
@@ -39,7 +39,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
 
         // Truncate
         $tableName = $this->getClassProperty('tableName');
-        $this->connection->exec("TRUNCATE TABLE $tableName");
+        $this->context->query("TRUNCATE TABLE $tableName");
     }
 
     public function test__constructor()
@@ -63,21 +63,21 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->instance->save($row);
 
         // Expected: 1 item in db, id given to row
-        $this->assertEquals(1, $this->connection->table($this->getClassProperty('tableName'))->count());
+        $this->assertEquals(1, $this->context->table($this->getClassProperty('tableName'))->count());
         //$this->assertEquals(1, $row['id'] ); // This assertion would be obsolete (if no id was given, two records would be present)
 
 
         /* Re-inserting deleted items */
         $row = array('id' => 2);
 
-        $this->connection->exec('INSERT INTO ' . $this->getClassProperty('tableName'), $row);
+        $this->context->exec('INSERT INTO ' . $this->getClassProperty('tableName'), $row);
 
         // In row id is 2, remove that record
-        $this->connection->exec('DELETE FROM ' . $this->getClassProperty('tableName') . ' WHERE id=?', $row['id']);
+        $this->context->exec('DELETE FROM ' . $this->getClassProperty('tableName') . ' WHERE id=?', $row['id']);
 
         $this->instance->save($row); // Re-insert of deleted item
 
-        $this->assertEquals(2, $this->connection->table($this->getClassProperty('tableName'))->count());
+        $this->assertEquals(2, $this->context->table($this->getClassProperty('tableName'))->count());
     }
 
 	public function testDelete()

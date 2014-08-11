@@ -10,7 +10,7 @@
 
 namespace Ndbf;
 
-use Nette\Database\SelectionFactory;
+use Nette\Database\Context;
 
 /**
  * Basic repository class
@@ -19,11 +19,8 @@ class Repository extends \Nette\Object
 {
 	/* ---------------------------- VARIABLES ------------------------------- */
 
-	/** @var Nette\Database\Connection */
-	protected $connection;
-
-	/** @var Nette\Database\SelectionFactory */
-	protected $selectionFactory;
+	/** @var Nette\Database\Context */
+	protected $context;
 
 	/** @var string Associated table name */
 	protected $tableName;
@@ -35,24 +32,14 @@ class Repository extends \Nette\Object
 
 	/* ------------------------ CONSTRUCTOR, DESIGN ------------------------- */
 
-	/**
-	 * @internal
-	 */
-	public function injectConnection(\Nette\Database\Connection $connection)
-	{
-		$this->connection = $connection;
-	}
-
-
 
 	/**
 	 * @internal
 	 */
-	public function injectSelectionFactory(\Nette\Database\SelectionFactory $selectionFactory)
+	public function injectContext(\Nette\Database\Context $context)
 	{
-		$this->selectionFactory = $selectionFactory;
+		$this->context = $context;
 	}
-
 
 
 	/**
@@ -64,7 +51,6 @@ class Repository extends \Nette\Object
 	}
 
 
-
 	/**
 	 * @internal
 	 */
@@ -74,7 +60,6 @@ class Repository extends \Nette\Object
 	}
 
 
-
 	/* ---------------------- Nette\Database EXTENSION ---------------------- */
 
 	/**
@@ -82,9 +67,8 @@ class Repository extends \Nette\Object
 	 */
 	final public function table()
 	{
-		return $this->selectionFactory->table($this->tableName);
+		return $this->context->table($this->tableName);
 	}
-
 
 
 	/**
@@ -94,7 +78,6 @@ class Repository extends \Nette\Object
 	{
 		return $this->table()->select($columns);
 	}
-
 
 
 	/**
@@ -109,7 +92,6 @@ class Repository extends \Nette\Object
 	}
 
 
-
 	/**
 	 * Counts table's rows.
 	 * @param string $column
@@ -121,7 +103,6 @@ class Repository extends \Nette\Object
 	}
 
 
-
 	/**
 	 * Deletes entity from db.
 	 * @param array $conditions
@@ -131,7 +112,6 @@ class Repository extends \Nette\Object
 	{
 		$this->table()->where($conditions)->delete();
 	}
-
 
 
 	/**
@@ -165,16 +145,15 @@ class Repository extends \Nette\Object
 	}
 
 
-
 	/**
 	 * Performs queries and commands given in callback during one transaction
 	 * @param  callback $callback
 	 */
 	public function transaction($callback)
 	{
-		$this->connection->beginTransaction();
+		$this->context->beginTransaction();
 		$return = call_user_func($callback);
-		$this->connection->commit();
+		$this->context->commit();
 		return $return;
 	}
 

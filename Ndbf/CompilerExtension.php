@@ -40,16 +40,15 @@ class CompilerExtension extends \Nette\DI\CompilerExtension
 				}
 
 				// Table name
-				$serviceDefinition->addSetup('setTableName', $name);
+				$serviceDefinition->addSetup('setTableName', [$name]);
 
 				// Primary key
 				if (isset($definition['primaryKey'])) {
-					$serviceDefinition->addSetup('setTablePrimaryKey', $definition['primaryKey']);
+					$serviceDefinition->addSetup('setTablePrimaryKey', [$definition['primaryKey']]);
 				}
 
 				// Setup
-				$serviceDefinition->addSetup('injectConnection');
-				$serviceDefinition->addSetup('injectSelectionFactory');
+				$serviceDefinition->addSetup('injectContext');
 				if (is_array($definition) && isset($definition['setup'])) {
 					foreach ($definition['setup'] as $setup) {
 						$attributes = isset($setup->attributes) ? $setup->attributes : array();
