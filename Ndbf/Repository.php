@@ -135,9 +135,10 @@ class Repository extends \Nette\Object
 
 		// Perform
 		if ($insert) {
-			$this->table()->insert($record);
-			if ($this->tablePrimaryKey !== NULL) {
-				$record[$this->tablePrimaryKey] = $this->connection->getInsertId('"' . $this->tableName . '_' . $this->tablePrimaryKey . '_seq"');
+			$row = $this->table()->insert($record);
+
+			if ($this->tablePrimaryKey !== NULL && $row instanceof \Nette\Database\IRow) {
+				$record[$this->tablePrimaryKey] = $row->{$this->tablePrimaryKey};
 			}
 		} else {
 			$this->table()->where($this->tablePrimaryKey, $record[$this->tablePrimaryKey])->update($record);
