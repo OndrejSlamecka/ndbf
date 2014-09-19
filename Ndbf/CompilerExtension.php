@@ -19,48 +19,47 @@ class CompilerExtension extends \Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		/* --- Repositories --- */
-		if (isset($config['repositories'])) {
-			foreach ($config['repositories'] as $name => $definition) {
+		$repositories = isset($config['repositories']) ? $config['repositories'] : $config;
+		
+		foreach ($repositories as $name => $definition) {
 
-				$serviceDefinition = $builder->addDefinition($this->prefix('repositories.' . $name));
+			$serviceDefinition = $builder->addDefinition($this->prefix('repositories.' . $name));
 
-				// Class
-				if (is_string($definition)) {
-					$serviceDefinition->setClass($definition);
+			// Class
+			if (is_string($definition)) {
+				$serviceDefinition->setClass($definition);
+			} else {
+				if (!isset($definition['class'])) {
+					throw new \InvalidArgumentException("Repository $name doesn't have defined 'class' parameter");
+				}
+
+				if (is_string($definition['class'])) {
+					$serviceDefinition->setClass($definition['class']);
 				} else {
-					if (!isset($definition['class'])) {
-						throw new \InvalidArgumentException("Repository $name doesn't have defined 'class' parameter");
-					}
-
-					if (is_string($definition['class'])) {
-						$serviceDefinition->setClass($definition['class']);
-					} else {
-						$serviceDefinition->setClass($definition['class']->value, $definition['class']->attributes);
-					}
+					$serviceDefinition->setClass($definition['class']->value, $definition['class']->attributes);
 				}
+			}
 
-				// Table name
-				$serviceDefinition->addSetup('setTableName', [$name]);
+			// Table name
+			$serviceDefinition->addSetup('setTableName', [$name]);
 
-				// Primary key
-				if (isset($definition['primaryKey'])) {
-					$serviceDefinition->addSetup('setTablePrimaryKey', [$definition['primaryKey']]);
-				}
+			// Primary key
+			if (isset($definition['primaryKey'])) {
+				$serviceDefinition->addSetup('setTablePrimaryKey', [$definition['primaryKey']]);
+			}
 
-				// Setup
-				$serviceDefinition->addSetup('injectContext');
-				if (is_array($definition) && isset($definition['setup'])) {
-					foreach ($definition['setup'] as $setup) {
-						$attributes = isset($setup->attributes) ? $setup->attributes : array();
-						$attributes = $this->compiler->filterArguments($attributes);
+			// Setup
+			$serviceDefinition->addSetup('injectContext');
+			if (is_array($definition) && isset($definition['setup'])) {
+				foreach ($definition['setup'] as $setup) {
+					$attributes = isset($setup->attributes) ? $setup->attributes : array();
+					$attributes = $this->compiler->filterArguments($attributes);
 
-						$val = is_string($setup) ? $setup : $setup->value;
-						$serviceDefinition->addSetup($val, $attributes);
-					}
+					$val = is_string($setup) ? $setup : $setup->value;
+					$serviceDefinition->addSetup($val, $attributes);
 				}
 			}
 		}
-
 	}
 
 }
